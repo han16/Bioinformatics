@@ -5,8 +5,12 @@ output:
     toc: false
 ---
 
-The goal of this new template is to simplify the setup and maintenance of a research website.
-Specifically,
+## From VCF file to individual genotype matrix 
+
+In some cases, the individual genotype matrix is needed for subsequent analysis, say run SKAT from VCF file.
+
+
+
 
 *  [Genomic Annotation](GenomicAnnotations.html) is here. 
 *  Easier to deploy the website with Git and GitHub by only using one branch
