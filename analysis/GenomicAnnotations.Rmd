@@ -5,8 +5,6 @@ date: YYYY-MM-DD
 output: html_document
 ---
 
-<!-- The file analysis/chunks.R contains chunks that define default settings
-shared across the workflowr files. -->
 ```{r read-chunk, include=FALSE, cache=FALSE}
 knitr::read_chunk("chunks.R")
 ```

@@ -7,10 +7,49 @@ output:
 
 ## From VCF file to individual genotype matrix 
 
-In some cases, the individual genotype matrix is needed for subsequent analysis, say run SKAT from VCF file.
+In some cases, the individual genotype matrix is needed for subsequent analysis, say run SKAT from [VCF file](https://samtools.github.io/hts-specs/VCFv4.2.pdf).
+
+```{r, echo=T, eval=F}
+library(vcfR)
+vcf=read.vcfR("/Users/han24/Documents/Research/rare-var/AutismDbGaP/73416-DS-ASD/pseudocc.tucc.vcf.gz.1.to.500000.gz")
+## read.vcfR couldn't load this large file 
+```
 
 
+## Run SKAT on plink bed file 
 
+bed,bim and fam files are produced by plink. SetID  is created from variant_function, one output of annovar. 
+
+
+```{r, echo=T, eval=F}
+## firs several rows of c1.avinput.variant_function
+ncRNA_exonic	DDX11L1	1	12198	12198	G	C	.	2955.57	.
+ncRNA_intronic	DDX11L1	1	12266	12266	G	A	.	763.37	.
+ncRNA_intronic	DDX11L1	1	12272	12272	G	A	.	766.9	.
+ncRNA_intronic	DDX11L1	1	12559	12559	G	A	.	184.16	.
+ncRNA_intronic	DDX11L1	1	12597	12597	T	C	.	39.93	.
+
+## to create SetID file, the second and fourth columns are used as its first and second column.  
+```
+
+
+```{r, echo=T, eval=F}
+library(SKAT)
+
+Generate_SSD_SetID("/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/pseudocc.tucc.bed", 
+                   "/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/pseudocc.tucc.bim", 
+                   "/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/pseudocc.tucc.fam", 
+                   "/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/c1.avinput.variant_function.NoDuplicate.1-1000.setID", 
+                   "/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/File.SSD", 
+                   "/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/File.Info")
+## SetID must not have duplicates 
+## File.SSD and File.Info are output file. 
+
+FAM<-Read_Plink_FAM("/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/pseudocc.tucc.fam", Is.binary=FALSE)
+y<-FAM$Phenotype
+SSD.INFO<-Open_SSD("/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/File.SSD", 
+                   "/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/File.Info")
+```
 
 *  [Genomic Annotation](GenomicAnnotations.html) is here. 
 *  Easier to deploy the website with Git and GitHub by only using one branch

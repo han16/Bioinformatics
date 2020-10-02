@@ -292,7 +292,7 @@ $(document).ready(function () {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/jdblischak/workflowr">
+  <a href="https://han16.github.io/Bioinformatics/">
     <span class="fa fa-github"></span>
      
   </a>
@@ -313,7 +313,37 @@ $(document).ready(function () {
 
 <div id="from-vcf-file-to-individual-genotype-matrix" class="section level2">
 <h2>From VCF file to individual genotype matrix</h2>
-<p>In some cases, the individual genotype matrix is needed for subsequent analysis, say run SKAT from VCF file.</p>
+<p>In some cases, the individual genotype matrix is needed for subsequent analysis, say run SKAT from <a href="https://samtools.github.io/hts-specs/VCFv4.2.pdf">VCF file</a>.</p>
+<pre class="r"><code>library(vcfR)
+vcf=read.vcfR(&quot;/Users/han24/Documents/Research/rare-var/AutismDbGaP/73416-DS-ASD/pseudocc.tucc.vcf.gz.1.to.500000.gz&quot;)
+## read.vcfR couldn&#39;t load this large file </code></pre>
+</div>
+<div id="run-skat-on-plink-bed-file" class="section level2">
+<h2>Run SKAT on plink bed file</h2>
+<p>bed,bim and fam files are produced by plink. SetID is created from variant_function, one output of annovar.</p>
+<pre class="r"><code>## firs several rows of c1.avinput.variant_function
+ncRNA_exonic    DDX11L1 1   12198   12198   G   C   .   2955.57 .
+ncRNA_intronic  DDX11L1 1   12266   12266   G   A   .   763.37  .
+ncRNA_intronic  DDX11L1 1   12272   12272   G   A   .   766.9   .
+ncRNA_intronic  DDX11L1 1   12559   12559   G   A   .   184.16  .
+ncRNA_intronic  DDX11L1 1   12597   12597   T   C   .   39.93   .
+
+## to create SetID file, the second and fourth columns are used as its first and second column.  </code></pre>
+<pre class="r"><code>library(SKAT)
+
+Generate_SSD_SetID(&quot;/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/pseudocc.tucc.bed&quot;, 
+                   &quot;/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/pseudocc.tucc.bim&quot;, 
+                   &quot;/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/pseudocc.tucc.fam&quot;, 
+                   &quot;/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/c1.avinput.variant_function.NoDuplicate.1-1000.setID&quot;, 
+                   &quot;/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/File.SSD&quot;, 
+                   &quot;/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/File.Info&quot;)
+## SetID must not have duplicates 
+## File.SSD and File.Info are output file. 
+
+FAM&lt;-Read_Plink_FAM(&quot;/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/pseudocc.tucc.fam&quot;, Is.binary=FALSE)
+y&lt;-FAM$Phenotype
+SSD.INFO&lt;-Open_SSD(&quot;/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/File.SSD&quot;, 
+                   &quot;/project2/xinhe/Shengtong/ASD_dbGaP_032020/data_from_nick/73416-DS-ASD/File.Info&quot;)</code></pre>
 <ul>
 <li><a href="GenomicAnnotations.html">Genomic Annotation</a> is here.</li>
 <li>Easier to deploy the website with Git and GitHub by only using one branch</li>
