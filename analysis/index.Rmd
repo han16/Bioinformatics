@@ -5,6 +5,9 @@ output:
     toc: false
 ---
 
+## Run ANNOVAR
+
+
 ## From VCF file to individual genotype matrix 
 
 In some cases, the individual genotype matrix is needed for subsequent analysis, say run SKAT from [VCF file](https://samtools.github.io/hts-specs/VCFv4.2.pdf).
